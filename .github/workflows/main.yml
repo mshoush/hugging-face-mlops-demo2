@@ -9,20 +9,16 @@ on:
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
-    env:
-      HF: ${{ secrets.HF }}
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Configure Git
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-
-      - name: Add remote
-        run: git remote add space https://mshoush:$HF@huggingface.co/spaces/MShoush/mlops-demo2
-
+      - name: Add remote 
+        env:
+          HF: ${{ secrets.HF }}
+          # https://huggingface.co/spaces/MShoush/mlops-demo2
+        run: git remote add space https://MShoush:$HF@huggingface.co/spaces/MShoush/mlops-demo2
       - name: Push to hub
-        run: git push --force space main
+        env:
+          HF: ${{ secrets.HF }}
+        run: git push --force https://MShoush:$HF@huggingface.co/spaces/MShoush/mlops-demo2 main
